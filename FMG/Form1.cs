@@ -94,88 +94,87 @@ namespace FMG
             }
         }
 
-        private void generateExcel(Excel.Workbook xlWorkBookCurrent, Excel.Worksheet xlWorkSheetCurrent)
-        {
-            //string workbookPath = System.Windows.Forms.Application.StartupPath + fileName;
+        //private void generateExcel(Excel.Workbook xlWorkBookCurrent, Excel.Worksheet xlWorkSheetCurrent)
+        //{
+        //    //string workbookPath = System.Windows.Forms.Application.StartupPath + fileName;
 
-            try
-            {
-                //Excel.Application xlApp = new Excel.Application();
-                //if (xlApp == null)
-                //{
-                //    MessageBox.Show("Excel is not properly installed!!");
-                //    return;
-                //}
+        //    try
+        //    {
+        //        //Excel.Application xlApp = new Excel.Application();
+        //        //if (xlApp == null)
+        //        //{
+        //        //    MessageBox.Show("Excel is not properly installed!!");
+        //        //    return;
+        //        //}
 
-                //Excel.Workbook xlWorkBookCurrent;
-                //Excel.Worksheet xlWorkSheetCurrent;
-                //Excel.Range range;
-
-
+        //        //Excel.Workbook xlWorkBookCurrent;
+        //        //Excel.Worksheet xlWorkSheetCurrent;
+        //        //Excel.Range range;
 
 
-                Excel.Workbook xlWorkBookNew;
-                Excel.Worksheet xlWorkSheetNew;
-                object misValue = System.Reflection.Missing.Value;
 
-                xlWorkBookNew = xlApp.Workbooks.Add(misValue);
-                //xlWorkSheetNew = (Excel.Worksheet)xlWorkBookNew.Worksheets.get_Item(1);
-                xlWorkSheetNew = (Excel.Worksheet)xlWorkBookNew.Worksheets.Add(misValue, misValue, misValue, misValue);
-                xlWorkSheetCurrent.UsedRange.Copy(Type.Missing);
-                xlWorkSheetNew.Paste(Type.Missing, Type.Missing);
 
-                Clipboard.Clear();
-                //xlWorkSheetNew = xlWorkSheetCurrent;
-                //xlWorkSheet2.Name = "OT";
-                Excel.Range formatRange;
-                formatRange = xlWorkSheetNew.Cells;
-                formatRange.NumberFormat = "@";
-                xlWorkSheetNew.Cells[1, "AD"].Value2 = "OT Corrected";
-                range = xlWorkSheetNew.UsedRange;
-                TimeSpan BaseTime = new TimeSpan(8, 0, 0);
-                TimeSpan WorkingHours;
-                TimeSpan OT;
-                TimeSpan CorrectOT;
-                DateTime WorkingHours2;
-                DateTime OT2;
+        //        Excel.Workbook xlWorkBookNew;
+        //        Excel.Worksheet xlWorkSheetNew;
+        //        object misValue = System.Reflection.Missing.Value;
 
-                for (int rCnt = 2; rCnt <= range.Rows.Count; rCnt++)
-                {
-                    string s1 = xlWorkSheetNew.Cells[rCnt, "R"].Value2;
-                    string s2 = xlWorkSheetNew.Cells[rCnt, "Q"].Value2;
+        //        xlWorkBookNew = xlApp.Workbooks.Add(misValue);
+        //        //xlWorkSheetNew = (Excel.Worksheet)xlWorkBookNew.Worksheets.get_Item(1);
+        //        xlWorkSheetNew = (Excel.Worksheet)xlWorkBookNew.Worksheets.Add(misValue, misValue, misValue, misValue);
+        //        xlWorkSheetCurrent.UsedRange.Copy(Type.Missing);
+        //        xlWorkSheetNew.Paste(Type.Missing, Type.Missing);
 
-                    if (s1 != "" && s2 != "")
-                    {
-                        WorkingHours2 = Convert.ToDateTime(s1);
-                        OT2 = Convert.ToDateTime(s2);
-                        WorkingHours = new TimeSpan(WorkingHours2.Hour, WorkingHours2.Minute, 0);
-                        OT = new TimeSpan(OT2.Hour, OT2.Minute, 0);
-                        CorrectOT = OT - (BaseTime - WorkingHours);
-                        DateTime dt = new DateTime(CorrectOT.Ticks);
-                        string s = dt.ToString("HH:mm");
-                        //string s = CorrectOT.Hours.ToString() + ":" + CorrectOT.Minutes.ToString();
-                        xlWorkSheetNew.Cells[rCnt, "AD"].Value2 = s;
-                    }
-                }
+        //        Clipboard.Clear();
+        //        //xlWorkSheetNew = xlWorkSheetCurrent;
+        //        //xlWorkSheet2.Name = "OT";
+        //        Excel.Range formatRange;
+        //        formatRange = xlWorkSheetNew.Cells;
+        //        formatRange.NumberFormat = "@";
+        //        xlWorkSheetNew.Cells[1, "AD"].Value2 = "OT Corrected";
+        //        range = xlWorkSheetNew.UsedRange;
+        //        TimeSpan BaseTime = new TimeSpan(8, 0, 0);
+        //        TimeSpan WorkingHours;
+        //        TimeSpan OT;
+        //        TimeSpan CorrectOT;
+        //        DateTime WorkingHours2;
+        //        DateTime OT2;
 
-                xlWorkBookCurrent.Close(false, null, null);
-                saveFileDialog1.ShowDialog();
-                xlWorkBookNew.SaveAs(saveFileDialog1.FileName, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                xlWorkBookNew.Close(true, null, null);
-                xlApp.Quit();
+        //        for (int rCnt = 2; rCnt <= range.Rows.Count; rCnt++)
+        //        {
+        //            string s1 = xlWorkSheetNew.Cells[rCnt, "R"].Value2;
+        //            string s2 = xlWorkSheetNew.Cells[rCnt, "Q"].Value2;
 
-                releaseObject(xlWorkSheetCurrent);
-                releaseObject(xlWorkBookCurrent);
-                releaseObject(xlWorkSheetNew);
-                releaseObject(xlWorkBookNew);
-                releaseObject(xlApp);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //            if (s1 != "" && s2 != "")
+        //            {
+        //                WorkingHours2 = Convert.ToDateTime(s1);
+        //                OT2 = Convert.ToDateTime(s2);
+        //                WorkingHours = new TimeSpan(WorkingHours2.Hour, WorkingHours2.Minute, 0);
+        //                OT = new TimeSpan(OT2.Hour, OT2.Minute, 0);
+        //                CorrectOT = OT - (BaseTime - WorkingHours);
+        //                DateTime dt = new DateTime(CorrectOT.Ticks);
+        //                string s = dt.ToString("HH:mm");
+        //                //string s = CorrectOT.Hours.ToString() + ":" + CorrectOT.Minutes.ToString();
+        //                xlWorkSheetNew.Cells[rCnt, "AD"].Value2 = s;
+        //            }
+        //        }
 
+        //        xlWorkBookCurrent.Close(false, null, null);
+        //        saveFileDialog1.ShowDialog();
+        //        xlWorkBookNew.SaveAs(saveFileDialog1.FileName, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+        //        xlWorkBookNew.Close(true, null, null);
+        //        xlApp.Quit();
+
+        //        releaseObject(xlWorkSheetCurrent);
+        //        releaseObject(xlWorkBookCurrent);
+        //        releaseObject(xlWorkSheetNew);
+        //        releaseObject(xlWorkBookNew);
+        //        releaseObject(xlApp);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
         private void SummaryOfOvertime()
         {
@@ -205,6 +204,8 @@ namespace FMG
                 Excel.Range formatRange;
                 formatRange = xlWorkSheetNew.Cells;
                 formatRange.NumberFormat = "@";
+
+
                 xlWorkSheetNew.Cells[1, "AD"].Value2 = "OT Corrected";
                 xlWorkSheetNew.Cells[1, "AE"].Value2 = "Total Early";
                 xlWorkSheetNew.Cells[1, "AF"].Value2 = "Total Late";
@@ -221,29 +222,32 @@ namespace FMG
                 //TimeSpan BaseTime = TimeSpan.Zero;
                 TimeSpan WorkingHours = TimeSpan.Zero;
                 TimeSpan OT = TimeSpan.Zero;
-                TimeSpan CorrectOT = TimeSpan.Zero;
+                //TimeSpan CorrectOT = TimeSpan.Zero;
                 TimeSpan Late = TimeSpan.Zero;
                 TimeSpan Early = TimeSpan.Zero;
                 TimeSpan TotalLate = TimeSpan.Zero;
                 TimeSpan TotalEarly = TimeSpan.Zero;
-                int NDays_OT = 0;
-                int Weekend_OT = 0;
-                int Weekend_OT_Total = 0;
-                TimeSpan Holiday_OT = TimeSpan.Zero;
-                int Holiday_OT_Total = 0;
-                //int TotalOT = 0;
+                double Normal_OT_Total = 0;
+                double Weekend_OT_Total = 0;
+                double Holiday_OT_Total = 0;
                 int index = 2;
-                int cCnt = 3;
+                int cCnt = 2;
+                double RegularOT = 0;
+                double WeekEnd_OT = 0;
+                double Holiday_OT = 0;
 
                 // SummaryOvertime Header
+                #region Summary Overtime Header
                 xlWorkSheetSummaryOvertime.Cells[1, "A"].value2 = "AC_No";
                 xlWorkSheetSummaryOvertime.Cells[1, "B"].value2 = "Name";
                 xlWorkSheetSummaryOvertime.Cells[1, "C"].value2 = "NDays_OT";
                 xlWorkSheetSummaryOvertime.Cells[1, "D"].value2 = "Weekend_OT";
                 xlWorkSheetSummaryOvertime.Cells[1, "E"].value2 = "Holiday_OT";
-                xlWorkSheetSummaryOvertime.Cells[1, "F"].value2 = "Total Weekend+Holiday OT";
+                xlWorkSheetSummaryOvertime.Cells[1, "F"].value2 = "Total Weekend+Holiday OT"; 
+                #endregion
 
                 // DailyOvertime Header
+                #region Daily Overtime Header
                 xlWorkSheetDailyOvertime.Cells[1, "A"].value2 = "AC_No";
                 xlWorkSheetDailyOvertime.Cells[1, "B"].value2 = "Name";
                 xlWorkSheetDailyOvertime.Cells[1, "C"].value2 = "01";
@@ -280,7 +284,8 @@ namespace FMG
                 xlWorkSheetDailyOvertime.Cells[1, "AH"].value2 = "NDays_OT";
                 xlWorkSheetDailyOvertime.Cells[1, "AI"].value2 = "Weekend_OT";
                 xlWorkSheetDailyOvertime.Cells[1, "AJ"].value2 = "Holiday_OT";
-                xlWorkSheetDailyOvertime.Cells[1, "AK"].value2 = "Total Weekend+Holiday OT";
+                xlWorkSheetDailyOvertime.Cells[1, "AK"].value2 = "Total Weekend+Holiday OT"; 
+                #endregion
 
                 Ac_No = xlWorkSheetNew.Cells[2, "B"].Value2;
                 Name = xlWorkSheetNew.Cells[2, "D"].Value2;
@@ -303,6 +308,7 @@ namespace FMG
                     //string OffDuty = xlWorkSheetNew.Cells[rCnt, "I"].Value2;
                     string Late_Time = xlWorkSheetNew.Cells[rCnt, "N"].Value2;
                     string Early_Time = xlWorkSheetNew.Cells[rCnt, "O"].Value2;
+                    string NDays_OT = xlWorkSheetNew.Cells[rCnt, "AA"].Value2;
 
                     //BaseTime = (new TimeSpan(Convert.ToDateTime(OffDuty).Hour, Convert.ToDateTime(OffDuty).Minute, 0)) - (new TimeSpan(Convert.ToDateTime(OnDuty).Hour, Convert.ToDateTime(OnDuty).Minute, 0));
 
@@ -327,94 +333,128 @@ namespace FMG
 
                     if (FlagNormal == "1")
                     {
-                        if (OT_Time != "")
+                        if (NDays_OT != "")
                         {
-                            //WorkingHours = new TimeSpan(Convert.ToDateTime(WorkTime).Hour, Convert.ToDateTime(WorkTime).Minute, 0);
-                            OT = new TimeSpan(Convert.ToDateTime(OT_Time).Hour, Convert.ToDateTime(OT_Time).Minute, 0);
-
-
-
-                            if (OT - Late <= TimeSpan.Zero)
-                            {
-                                CorrectOT = TimeSpan.Zero;
-                            }
-                            else
-                            {
-                                CorrectOT = OT - Late;
-                            }
-                            xlWorkSheetNew.Cells[rCnt, "AD"].Value2 = GetTotalAsString(CorrectOT);
+                            RegularOT = Convert.ToDouble(NDays_OT) - Late.TotalMinutes;
+                            if (RegularOT < 0) RegularOT = 0;
+                            xlWorkSheetNew.Cells[rCnt, "AD"].Value2 = RegularOT;
                         }
                         else
                         {
-                            CorrectOT = TimeSpan.Zero;
+                            RegularOT = 0;
                         }
-                        xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = (int)CorrectOT.TotalMinutes;
+                        //xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = RegularOT / 60.0;
+                        //if (OT_Time != "")
+                        //{
+                        //    //WorkingHours = new TimeSpan(Convert.ToDateTime(WorkTime).Hour, Convert.ToDateTime(WorkTime).Minute, 0);
+                        //    OT = new TimeSpan(Convert.ToDateTime(OT_Time).Hour, Convert.ToDateTime(OT_Time).Minute, 0);
+                        //    if (OT - Late <= TimeSpan.Zero)
+                        //    {
+                        //        CorrectOT = TimeSpan.Zero;
+                        //    }
+                        //    else
+                        //    {
+                        //        CorrectOT = OT - Late;
+                        //    }
+                        //    xlWorkSheetNew.Cells[rCnt, "AD"].Value2 = GetTotalAsString(CorrectOT);
+                        //}
+                        //else
+                        //{
+                        //    CorrectOT = TimeSpan.Zero;
+                        //}
+                        //xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = (double) (CorrectOT.TotalMinutes / 60.0);
                     }
                     else if (FlagWeekend == "1")
                     {
-                        Weekend_OT = (int)new TimeSpan(Convert.ToDateTime(Att_Time).Hour, Convert.ToDateTime(Att_Time).Minute, 0).TotalMinutes;
-                        xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = Weekend_OT;
+                        WeekEnd_OT = Convert.ToDouble(Weekend);
+                        //xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = WeekEnd_OT / 60.0;
+                        Holiday_OT = 0;
+                        //Weekend_OT = (int)new TimeSpan(Convert.ToDateTime(Att_Time).Hour, Convert.ToDateTime(Att_Time).Minute, 0).TotalMinutes;
+                        //xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = (double)(Weekend_OT / 60.0);
                     }
                     else if (FlagHoliday == "1")
                     {
-                        Holiday_OT = WorkingHours + OT;
-                        xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = Holiday_OT;
+                        Holiday_OT = Convert.ToDouble(Holiday);
+                        //xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = Holiday_OT / 60.0;
+                        WeekEnd_OT = 0;
+                        //Holiday_OT = WorkingHours + OT;
+                        //xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = (double)(Holiday_OT.TotalMinutes / 60.0);
                     }
                     else
                     {
-                        xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = 0;
+                        //xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = 0;
+                        RegularOT = 0;
+                        Holiday_OT = 0;
+                        WeekEnd_OT = 0;
                     }
 
                     if (Ac_No == xlWorkSheetNew.Cells[rCnt, "B"].Value2)
                     {
                         //Same Emp
-                        NDays_OT += Convert.ToInt32(CorrectOT.TotalMinutes);
-                        Weekend_OT_Total += Weekend_OT;
-                        Holiday_OT_Total += Convert.ToInt32(Holiday_OT.TotalMinutes);
+                        Normal_OT_Total += RegularOT;
+                        Weekend_OT_Total += WeekEnd_OT;
+                        Holiday_OT_Total += Holiday_OT;
                         TotalLate += Late;
                         TotalEarly += Early;
-
-                        CorrectOT = TimeSpan.Zero;
-                        Weekend_OT = 0;
-                        Holiday_OT = TimeSpan.Zero;
                         cCnt++;
+                        xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = (RegularOT + WeekEnd_OT + Holiday_OT) / 60.0;
+
+                        RegularOT = 0;
+                        WeekEnd_OT = 0;
+                        Holiday_OT = 0;
+                        
+                        
 
                         if (rCnt == range.Rows.Count)
                         {
-                            xlWorkSheetSummaryOvertime.Cells[index, "C"].value2 = NDays_OT / 60;
-                            xlWorkSheetDailyOvertime.Cells[index, "AH"].value2 = NDays_OT;
-                            xlWorkSheetSummaryOvertime.Cells[index, "D"].value2 = Weekend_OT_Total;
-                            xlWorkSheetDailyOvertime.Cells[index, "AI"].value2 = Weekend_OT_Total;
-                            xlWorkSheetSummaryOvertime.Cells[index, "E"].value2 = Holiday_OT_Total;
-                            xlWorkSheetDailyOvertime.Cells[index, "AJ"].value2 = Holiday_OT_Total;
-                            xlWorkSheetSummaryOvertime.Cells[index, "F"].value2 = Weekend_OT_Total + Holiday_OT_Total;//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
-                            xlWorkSheetDailyOvertime.Cells[index, "AK"].value2 = Weekend_OT_Total + Holiday_OT_Total;//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
+                            xlWorkSheetSummaryOvertime.Cells[index, "C"].value2 = Normal_OT_Total / 60.0;
+                            xlWorkSheetDailyOvertime.Cells[index, "AH"].value2 = Normal_OT_Total / 60.0;
+                            xlWorkSheetSummaryOvertime.Cells[index, "D"].value2 = Weekend_OT_Total / 60.0;
+                            xlWorkSheetDailyOvertime.Cells[index, "AI"].value2 = Weekend_OT_Total / 60.0;
+                            xlWorkSheetSummaryOvertime.Cells[index, "E"].value2 = Holiday_OT_Total / 60.0;
+                            xlWorkSheetDailyOvertime.Cells[index, "AJ"].value2 = Holiday_OT_Total / 60.0;
+                            xlWorkSheetSummaryOvertime.Cells[index, "F"].value2 = ((Weekend_OT_Total + Holiday_OT_Total) / 60.0);//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
+                            xlWorkSheetDailyOvertime.Cells[index, "AK"].value2 = ((Weekend_OT_Total + Holiday_OT_Total) / 60.0);//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
                             xlWorkSheetNew.Cells[rCnt, "AE"].Value2 = GetTotalAsString(TotalEarly);
                             xlWorkSheetNew.Cells[rCnt, "AF"].Value2 = GetTotalAsString(TotalLate);
+                            
                         }
                     }
                     else
                     {
                         // Another emp
+                        xlWorkSheetSummaryOvertime.Cells[index, "C"].value2 = Normal_OT_Total / 60.0;
+                        xlWorkSheetDailyOvertime.Cells[index, "AH"].value2 = Normal_OT_Total / 60.0;
+                        xlWorkSheetSummaryOvertime.Cells[index, "D"].value2 = Weekend_OT_Total / 60.0;
+                        xlWorkSheetDailyOvertime.Cells[index, "AI"].value2 = Weekend_OT_Total / 60.0;
+                        xlWorkSheetSummaryOvertime.Cells[index, "E"].value2 = Holiday_OT_Total / 60.0;
+                        xlWorkSheetDailyOvertime.Cells[index, "AJ"].value2 = Holiday_OT_Total / 60.0;
+                        xlWorkSheetSummaryOvertime.Cells[index, "F"].value2 = ((Weekend_OT_Total + Holiday_OT_Total) / 60.0);//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
+                        xlWorkSheetDailyOvertime.Cells[index, "AK"].value2 = ((Weekend_OT_Total + Holiday_OT_Total) / 60.0);//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
+                        xlWorkSheetNew.Cells[rCnt - 1, "AE"].Value2 = GetTotalAsString(TotalEarly);
+                        xlWorkSheetNew.Cells[rCnt - 1, "AF"].Value2 = GetTotalAsString(TotalLate);
+                        index++;
+                        cCnt = 3;
+                        xlWorkSheetDailyOvertime.Cells[index, cCnt].value2 = (RegularOT + WeekEnd_OT + Holiday_OT) / 60.0;
 
-                        xlWorkSheetSummaryOvertime.Cells[index, "C"].value2 = NDays_OT / 60;
-                        xlWorkSheetDailyOvertime.Cells[index, "AH"].value2 = NDays_OT;
-                        xlWorkSheetSummaryOvertime.Cells[index, "D"].value2 = Weekend_OT_Total;
-                        xlWorkSheetDailyOvertime.Cells[index, "AI"].value2 = Weekend_OT_Total;
-                        xlWorkSheetSummaryOvertime.Cells[index, "E"].value2 = Holiday_OT_Total;
-                        xlWorkSheetDailyOvertime.Cells[index, "AJ"].value2 = Holiday_OT_Total;
-                        xlWorkSheetSummaryOvertime.Cells[index, "F"].value2 = Weekend_OT_Total + Holiday_OT_Total;//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
-                        xlWorkSheetDailyOvertime.Cells[index, "AK"].value2 = Weekend_OT_Total + Holiday_OT_Total;//NDays_OT + Weekend_OT_Total + Holiday_OT_Total;
-                        xlWorkSheetNew.Cells[rCnt, "AE"].Value2 = GetTotalAsString(TotalEarly);
-                        xlWorkSheetNew.Cells[rCnt, "AF"].Value2 = GetTotalAsString(TotalLate);
 
-                        NDays_OT = 0;
+
+                        Normal_OT_Total = 0;
                         Weekend_OT_Total = 0;
                         Holiday_OT_Total = 0;
                         TotalEarly = TimeSpan.Zero;
                         TotalLate = TimeSpan.Zero;
-                        index++;
-                        cCnt = 3;
+
+
+                        Normal_OT_Total += RegularOT;
+                        Weekend_OT_Total += WeekEnd_OT;
+                        Holiday_OT_Total += Holiday_OT;
+                        TotalLate += Late;
+                        TotalEarly += Early;
+
+                        RegularOT = 0;
+                        WeekEnd_OT = 0;
+                        Holiday_OT = 0;
 
                         Ac_No = xlWorkSheetNew.Cells[rCnt, "B"].Value2;
                         Name = xlWorkSheetNew.Cells[rCnt, "D"].Value2;
@@ -431,6 +471,15 @@ namespace FMG
                 myRange = xlWorkSheetDailyOvertime.UsedRange;
                 myRange.EntireColumn.AutoFit();
                 myRange.HorizontalAlignment = HorizontalAlignment.Center;
+                myRange = xlWorkSheetDailyOvertime.get_Range("b2", "AK2000");
+                myRange.NumberFormat = "0.00";
+
+                Excel.Range myRange2;
+                myRange2 = xlWorkSheetSummaryOvertime.UsedRange;
+                myRange2.EntireColumn.AutoFit();
+                myRange2.HorizontalAlignment = HorizontalAlignment.Center;
+                myRange2 = xlWorkSheetSummaryOvertime.get_Range("c2", "f2000");
+                myRange2.NumberFormat = "0.00";
 
                 xlWorkBookCurrent.Close(false, null, null);
                 saveFileDialog1.ShowDialog();
